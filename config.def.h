@@ -65,5 +65,12 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ datetime, "%s",           "%F %T" },
+	{ cpu_perc,    "  %s",  NULL },
+	{ run_command,    "  %s°C",  "sensors | awk '/Package id 0/ {print $4}' | awk -F '[+.]' '{print $2}'" },
+	{ run_command,    "  %s",  "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits" },
+	{ run_command,    "  %s°C",  "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits" },
+	{ ram_used,    "  %s GB", NULL },
+	{ run_command, "  %s ", "audio" },
+	{ run_command, "  %s", "audio i" },
+	{ datetime,    "  %s",   "%d/%m/%y  %T" },
 };
