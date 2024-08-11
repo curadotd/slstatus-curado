@@ -70,6 +70,6 @@ static const struct arg args[] = {
 	{ run_command,    "  %s",  "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits" },
 	{ run_command,    "  %s°C",  "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits" },
 	{ ram_used,    "  %s GB", NULL },
-	{ vol_perc, "[  %s%] ", "/dev/mixer1" },
+	{ vol_perc, "  %s%", "/dev/mixer1" },
 	{ datetime,    "  %s",   "%d/%m/%y  %T" },
 };
