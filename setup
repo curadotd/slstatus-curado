@@ -1,0 +1,64 @@
+#! /bin/bash
+
+# Function to detect the Linux distribution
+get_distro() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        echo $ID
+    elif [ -f /etc/debian_version ]; then
+        echo "debian"
+    elif [ -f /etc/arch-release ]; then
+        echo "arch"
+    elif [ -f /etc/rocky-release ]; then
+        echo "rocky"
+    else
+        echo "unknown"
+    fi
+}
+
+# Detect the distribution
+DISTRO=$(get_distro)
+
+echo "Installing and setting up slstatus-curado..."
+echo "Installing dependencies"
+case $DISTRO in
+    debian|ubuntu)
+        install_packages libx11-dev libxft-dev libxinerama-dev alsa-oss
+        sudo /usr/sbin/modprobe snd-pcm-oss
+        echo "Adding snd-pcm-oss to /etc/modules-load.d/modules.conf"
+        echo "snd-pcm-oss" | sudo tee -a /etc/modules-load.d/modules.conf > /dev/null
+        ;;
+    arch)
+        install_packages libx11 libxft libxinerama alsa-oss
+        sudo modprobe snd-pcm-oss
+        echo "Adding snd-pcm-oss to /etc/modules-load.d/snd-pcm-oss.conf"
+        echo "snd-pcm-oss" | sudo tee /etc/modules-load.d/snd-pcm-oss.conf > /dev/null
+        ;;
+    rocky)
+        install_packages libX11-devel libXft-devel libXinerama-devel alsa-oss
+        sudo modprobe snd-pcm-oss
+        echo "Adding snd-pcm-oss to /etc/modules-load.d/snd-pcm-oss.conf"
+        echo "snd-pcm-oss" | sudo tee /etc/modules-load.d/snd-pcm-oss.conf > /dev/null
+        ;;
+esac
+# Add installation and setup commands for slstatus_curado here
+# For example:
+
+# Check if the system is a laptop
+if [ -d "/sys/class/power_supply" ]; then
+    # System is likely a laptop
+    echo "Laptop detected. Installing brightnessctl and adding brightness controls to DWM config."
+
+    # Append new key bindings to config.def.h
+    sed -i '/{ datetime,    "  %s",   "%d/%m/%y  %T" },/a \
+    { battery_perc,    "  %s%",   "BATT" },' config.def.h
+    
+    echo "Battery percentage added to slstatus config."
+else
+    echo "This doesn't appear to be a laptop. Skipping brightness control configuration."
+fi
+
+sudo make clean install
+# Add any additional configuration steps
+
+echo "Installation of slstatus-curado and setup is completed."

@@ -53,6 +53,14 @@ necessary as root):
 
     make clean install
 
+Installation using included setup script
+------------
+Clone the repository, then use the setup script to install.
+```sh
+$ git clone https://github.com/curadotd/slstatus-curado.git
+$ cd slstatus-curado
+$ ./setup
+```
 
 Running slstatus
 ----------------
