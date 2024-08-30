@@ -41,13 +41,11 @@ case $DISTRO in
         echo "snd-pcm-oss" | sudo tee /etc/modules-load.d/snd-pcm-oss.conf > /dev/null
         ;;
 esac
-# Add installation and setup commands for slstatus_curado here
-# For example:
 
 # Check if the system is a laptop
 if [ -d "/sys/class/power_supply" ]; then
     # System is likely a laptop
-    echo "Laptop detected. Installing brightnessctl and adding brightness controls to DWM config."
+    echo "Laptop detected. adding battery persentange display to config."
 
     # Append new key bindings to config.def.h
     sed -i '/{ datetime,    "  %s",   "%d/%m/%y  %T" },/a \
