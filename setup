@@ -19,6 +19,25 @@ get_distro() {
 # Detect the distribution
 DISTRO=$(get_distro)
 
+# Function to install packages based on the distribution
+install_packages() {
+    case $DISTRO in
+        debian)
+            sudo apt install "$@"
+            ;;
+        arch)
+            sudo pacman -S --needed "$@"
+            ;;
+        rocky)
+            sudo dnf install "$@"
+            ;;
+        *)
+            echo "Unsupported distribution. Please install the following packages manually: $@"
+            read -p "Press Enter to continue or Ctrl+C to exit..."
+            ;;
+    esac
+}
+
 echo "Installing and setting up slstatus-curado..."
 echo "Installing dependencies"
 case $DISTRO in
