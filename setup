@@ -67,8 +67,8 @@ if [ -d "/sys/class/power_supply" ]; then
     echo "Laptop detected. adding battery persentange display to config."
 
     # Append new key bindings to config.def.h
-    sed -i '/{ datetime,    "  %s",   "%d/%m/%y  %T" },/a \
-    { battery_perc,    "  %s%",   "BATT" },' config.def.h
+    sed -i '/{ datetime,    "  /%s",   "%d/%m/%y  %T" },/a \
+    { battery_perc,    "  /%s/%",   "BATT" },' config.def.h
     
     echo "Battery percentage added to slstatus config."
 else
